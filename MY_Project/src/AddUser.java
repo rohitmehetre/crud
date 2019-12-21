@@ -13,16 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Updateuser
+ * Servlet implementation class AddUser
  */
-@WebServlet("/Updateuser")
-public class Updateuser extends HttpServlet {
+@WebServlet("/AddUser")
+public class AddUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Updateuser() {
+    public AddUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,41 +34,36 @@ public class Updateuser extends HttpServlet {
 		res.setContentType("text/html");
 		PrintWriter out=res.getWriter();
 		String I=req.getParameter("id");
-		String f=req.getParameter("fname");
+		String f=req.getParameter("name");
 		String p=req.getParameter("pass");
+		String rp=req.getParameter("rpass");
 		String e=req.getParameter("email");
 		try
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "root", "root");
-			PreparedStatement ps=con.prepareStatement("update data set ID=?,First_Name=?,Password=?,Email=? where ID=?");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/crud", "root", "root");
+			PreparedStatement ps=con.prepareStatement("insert into data values(?,?,?,?,?)");
 			ps.setString(1, I);
 			ps.setString(2, f);
 			ps.setString(3, p);
-			ps.setString(4,e);
-            ps.setString(5, I);
-			int i=ps.executeUpdate();
-            if(i!=0)
+			ps.setString(4,rp);
+			ps.setString(5, e);
+            int i=ps.executeUpdate();
+            if(i>0)
             {
-            	out.print("table updated successfully.");
-            }
-            else
-            {
-            	out.print("table cannot updated");
+            	out.print("Data is inserted successfully.");
+            	out.println("<a href=welcome.html>Home</a>");
             }
 		}
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
-		}	
+		}
+		out.close();
+
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	
 
 }

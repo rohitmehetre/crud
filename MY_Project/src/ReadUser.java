@@ -32,6 +32,8 @@ public class ReadUser extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+ 
 		res.setContentType("text/html");
 		PrintWriter out=res.getWriter();
 		String I=req.getParameter("id");
@@ -41,26 +43,45 @@ public class ReadUser extends HttpServlet {
 		try
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "root", "root");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/crud", "root", "root");
 			Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select  * from data");
+            out.print("<html>");
+            out.print("<body>");
+            out.print("<table border=1px width=100%>");
+            out.print("<tr>");
+            out.print("<th>id</th>");
+            out.print("<th>uname</th>");
+            out.print("<th>pass</th>");
+            out.print("<th>rpass</th>");
+            out.print("<th>email</th>");
+            out.print("</tr>");
+            
             while (rs.next()) {
-                String name = (rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3)+" "+rs.getString(4));
-                System.out.println(name);
+                out.print("<tr>");
+                out.print("<td>"+rs.getString(1)+"</td>");
+                out.print("<td>"+rs.getString(2)+"</td>");
+                out.print("<td>"+rs.getString(3)+"</td>");
+                out.print("<td>"+rs.getString(4)+"</td>");
+                out.print("<td>"+rs.getString(5)+"</td>");
+                out.print("</tr>");
+                
+                
+                
             }
+            out.print("</table>");
+			out.println("<a href=welcome.html>Home</a>"); 
+            out.print("</body>");
+            out.print("</html>");
         }
 		catch(Exception e1)
 		{
 			e1.printStackTrace();
 		}
+
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	
 
 }

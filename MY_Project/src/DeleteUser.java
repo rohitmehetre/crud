@@ -31,6 +31,7 @@ public class DeleteUser extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		
 		res.setContentType("text/html");
 		PrintWriter out=res.getWriter();
 		String I=req.getParameter("id");
@@ -40,7 +41,7 @@ public class DeleteUser extends HttpServlet {
 		try
 		{
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/employee", "root", "root");
+			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/crud", "root", "root");
 			PreparedStatement ps=con.prepareStatement("delete from data where ID=?");
 			ps.setString(1, I);
 			//ps.setString(2, f);
@@ -51,6 +52,7 @@ public class DeleteUser extends HttpServlet {
             if(i!=0)
             {
             	out.print("table deleted successfully.");
+            	out.println("<a href=welcome.html>Home</a>");
             }
             else
             {
@@ -62,14 +64,9 @@ public class DeleteUser extends HttpServlet {
 			e1.printStackTrace();
 		}
 		out.close();
+
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+	
 
 }
